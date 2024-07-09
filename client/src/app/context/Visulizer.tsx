@@ -1,8 +1,8 @@
 'use client';
 
 import {SortingAlgorithmType} from "@/lib/types";
-import {MAX_ANIMATION_SPEED} from "@/lib/utils"
-import {createContext, useContext, useState} from "react";
+import {MAX_ANIMATION_SPEED, generateRandomNumberFromInterval} from "@/lib/utils"
+import {createContext, useContext, useEffect, useState} from "react";
 
 interface SortingAlgorithmContextType {
   arrayToSort: number[];
@@ -22,13 +22,38 @@ interface SortingAlgorithmContextType {
 const SortingAlgorithmContext = createContext<SortingAlgorithmContextType | undefined>(undefined)
 
 export const SortingAlgorithmProvider = ({children}: {children: React.ReactNode}) => {
-  const [arrayToSort, setArrayToSort] = useState<number[]>([300, 450, 120, 350, 460]);
+  const [arrayToSort, setArrayToSort] = useState<number[]>([]);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState<SortingAlgorithmType>("bubble");
   const [isSorting, setIsSorting] = useState<boolean>(false);
   const [animationSpeed, setAnimationSpeed] = useState<number>(MAX_ANIMATION_SPEED);
   const [isAnimationComplete, setIsAnimationComplete] = useState<boolean>(false);
 
-  const resetArrayAndAnimation = () => {};
+  useEffect(() => {
+    resetArrayAndAnimation();
+    // regenerate array on resize window width
+    window.addEventListener('resize',resetArrayAndAnimation);
+    // cleanup
+    return () => {
+      window.removeEventListener('resize', resetArrayAndAnimation);
+    }
+  }, [])
+
+  const resetArrayAndAnimation = () => {
+    const contentContainer = document.getElementById("content-container");
+    if(!contentContainer) return;
+
+    const contentContainerWith = contentContainer.clientWidth;
+    const tempArray: number[] = [];
+    const numLines = contentContainerWith / 8;
+    const containerHeight = window.innerHeight;
+    const maxLineHeight = Math.max(containerHeight - 420, 100);
+    for (let i = 0; i < numLines; i++){
+      tempArray.push(generateRandomNumberFromInterval(100, maxLineHeight))
+    }
+    setArrayToSort(tempArray);
+    setIsAnimationComplete(false);
+    setIsSorting(false);
+  };
   const runAnimation = () => {};
   const value = {
     arrayToSort, 
