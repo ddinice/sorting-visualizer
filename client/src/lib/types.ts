@@ -4,3 +4,5 @@ export type SortingAlgorithmType =
   | "selection"
   | "merge"
   | "quick";
+
+export type AnimateSpeedType = "slow" | "medium" | "fast" | "lighning";
