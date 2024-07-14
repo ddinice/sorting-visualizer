@@ -12,19 +12,19 @@ export const Select = ({
   isDisabled?: boolean
 }) => {
   return (
-    <div>
-    <select
-      defaultValue={defaultValue}
-      onChange={onChange}
-      disabled={isDisabled}
-      className="block appearance-none h-8 w-full bg-system-purple10 border-system-purple20 border px-4 py-1 pr-8 rounded-lg shadow leading-tight focus:outline-none focus:shadow-outline text-gray-300"
-    >
-      {options.map((option) => (
-        <option key={option.value} value={option.value}>
-          {option.label}
-        </option>
-      ))}
-    </select>
+    <div className="relative">
+      <select
+        defaultValue={defaultValue}
+        onChange={onChange}
+        disabled={isDisabled}
+        className="block appearance-none h-8 w-full bg-system-purple10 border-system-purple20 border px-4 py-1 pr-8 rounded-lg shadow leading-tight focus:outline-none focus:shadow-outline text-gray-300"
+      >
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
         <svg
           className="fill-gray-300 h-4 w-4"
