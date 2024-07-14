@@ -5,4 +5,9 @@ export type SortingAlgorithmType =
   | "merge"
   | "quick";
 
+export type SelectOptionsType = {
+  value: string,
+  label: string
+};
+
 export type AnimateSpeedType = "slow" | "medium" | "fast" | "lighning";
