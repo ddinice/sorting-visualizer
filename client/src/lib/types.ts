@@ -11,3 +11,5 @@ export type SelectOptionsType = {
 };
 
 export type AnimateSpeedType = "slow" | "medium" | "fast" | "lighning";
+
+export type AnimationArrayType = [number[], boolean][];
