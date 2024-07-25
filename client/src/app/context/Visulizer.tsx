@@ -58,6 +58,22 @@ export const SortingAlgorithmProvider = ({children}: {children: React.ReactNode}
       tempArray.push(generateRandomNumberFromInterval(100, maxLineHeight))
     }
     setArrayToSort(tempArray);
+
+    const highestId = window.setTimeout(() => {
+      for(let i=highestId; i>=0; i--){
+        window.clearInterval(i)
+      }
+    }, 0)
+
+    setTimeout(() => {
+      const arrayLines = document.getElementsByClassName(
+        "array-line"
+      ) as HTMLCollectionOf<HTMLElement>;
+      for (let i=0; i < arrayLines.length; i++){
+        arrayLines[i].classList.remove('changed-line-color');
+        arrayLines[i].classList.add('default-line-color');
+      } 
+    }, 0)
   };
 
   const runAnimation = (animations: AnimationArrayType) => {
