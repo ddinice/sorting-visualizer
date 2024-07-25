@@ -33,6 +33,7 @@ export const SortingAlgorithmProvider = ({children}: {children: React.ReactNode}
   const requiresReset = isAnimationComplete || isSorting;
 
   useEffect(() => {
+    console.log('reset')
     resetArrayAndAnimation();
     // regenerate array on resize window width
     window.addEventListener('resize',resetArrayAndAnimation);
@@ -43,6 +44,8 @@ export const SortingAlgorithmProvider = ({children}: {children: React.ReactNode}
   }, [])
 
   const resetArrayAndAnimation = () => {
+    setIsSorting(false);
+    setIsAnimationComplete(false);
     const contentContainer = document.getElementById("content-container");
     if(!contentContainer) return;
 
@@ -55,8 +58,6 @@ export const SortingAlgorithmProvider = ({children}: {children: React.ReactNode}
       tempArray.push(generateRandomNumberFromInterval(100, maxLineHeight))
     }
     setArrayToSort(tempArray);
-    setIsAnimationComplete(false);
-    setIsSorting(false);
   };
 
   const runAnimation = (animations: AnimationArrayType) => {
@@ -88,12 +89,12 @@ export const SortingAlgorithmProvider = ({children}: {children: React.ReactNode}
         const [values, isSwap] = animation;
 
         if (!isSwap) {
-          updateClassList(values, "change-line-color", "default-line-color");
+          updateClassList(values, "changed-line-color", "default-line-color");
           setTimeout(() => {
-            updateClassList(values, "default-line-color", "change-line-color");
+            updateClassList(values, "default-line-color", "changed-line-color");
           }, inverseSpeed)
         } else {
-          const [lineIndex, newHeight] = value;
+          const [lineIndex, newHeight] = values;
           updateHeightValue(lineIndex, newHeight);
         }
       }, index * inverseSpeed);

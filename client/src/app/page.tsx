@@ -3,7 +3,7 @@
 import {useSortingAlgorithmContext} from "./context/Visulizer";
 import {useContext, useEffect} from "react";
 
-import {algorithhmOptions} from "../lib/utils";
+import {algorithhmOptions, generateAnimationArray} from "../lib/utils";
 
 import {Slider} from "./components/Input/Slider";
 import {Select} from "./components/Input/Select";
@@ -21,7 +21,8 @@ export default function Home() {
     selectedAlgorithm,
     setSelectedAlgorithm,
     requiresReset,
-    resetArrayAndAnimation
+    resetArrayAndAnimation,
+    runAnimation
   } = useSortingAlgorithmContext();
 
   const handleSelecChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -32,7 +33,15 @@ export default function Home() {
       resetArrayAndAnimation()
       return
     }
+
+    generateAnimationArray(
+      selectedAlgorithm,
+      isSorting,
+      arrayToSort,
+      runAnimation
+    )
   }
+  
   return (
     <main className="absolute top-0 h-screen w-screen z-[-2] bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#150229_1px)] bg-[size:40px_40px]">
       <div className="flex h-full justify-center">
@@ -56,7 +65,7 @@ export default function Home() {
                 onChange={handleSelecChange}
                 isDisabled={isSorting}
               />
-              <button className="flex items-center justify-center" onClick={() => {}}>
+              <button className="flex items-center justify-center" onClick={handlePlay}>
                 {requiresReset ? (
                   <RxReset className="text-gray-400 h-8 w-8" />
                 ) : (
