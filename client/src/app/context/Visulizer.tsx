@@ -33,7 +33,6 @@ export const SortingAlgorithmProvider = ({children}: {children: React.ReactNode}
   const requiresReset = isAnimationComplete || isSorting;
 
   useEffect(() => {
-    console.log('reset')
     resetArrayAndAnimation();
     // regenerate array on resize window width
     window.addEventListener('resize',resetArrayAndAnimation);
@@ -78,7 +77,7 @@ export const SortingAlgorithmProvider = ({children}: {children: React.ReactNode}
 
   const runAnimation = (animations: AnimationArrayType) => {
     setIsSorting(true);
-    const inverseSpeed = (1/animationSpeed) * 200;
+    const inverseSpeed = (1/animationSpeed) * 500;
     const arrayLines = document.getElementsByClassName("array-line") as HTMLCollectionOf<HTMLElement>;
 
     const updateClassList = (
@@ -115,6 +114,25 @@ export const SortingAlgorithmProvider = ({children}: {children: React.ReactNode}
         }
       }, index * inverseSpeed);
     })
+
+    const finalTimout = animations.length * inverseSpeed;
+    const resetAllTimeout = finalTimout + 1000;
+
+    setTimeout(() => {
+      for(let i=0; i < arrayLines.length; i++){
+        setTimeout(() => {
+          updateClassList([i], "changed-line-color", "default-line-color");
+        }, i * inverseSpeed + 500)
+      };
+    }, finalTimout)
+
+    setTimeout(() => {
+      for(let i=0; i < arrayLines.length; i++){
+        setTimeout(() => {
+          updateClassList([i], "default-line-color", "changed-line-color");
+        }, i * inverseSpeed + 500)
+      };
+    }, resetAllTimeout)
   };
 
   const value = {
